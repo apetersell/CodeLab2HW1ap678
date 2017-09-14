@@ -4,72 +4,55 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-	Vector3 mousePos;
-
-	public bool red;
-	public bool yellow;
-	public bool green;
-	public bool blue; 
+	public int colorNum;
+	public Color [] colors;
 	SpriteRenderer sr;
+	public float maxX;
+	public float maxY;
+	Vector2 mousePos = new Vector2();
 
 	// Use this for initialization
 	void Start () {
-		
+
+		sr = GetComponent<SpriteRenderer> ();
+		sr = GetComponent<SpriteRenderer> ();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 		colorHanlde ();
+		stayOnScreen ();
 
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		transform.position = mousePos;
-		sr = GetComponent<SpriteRenderer> ();
+		if (colorNum > 3) 
+		{
+			colorNum = 0; 
+		}
+		mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		
 	}
 
 	void colorHanlde()
 	{
-//		if (red) {
-//			sr.color = Color.red;
-//		}
-//		if (yellow) {
-//			sr.color = Color.yellow;
-//		}
-//		if (green) {
-//			sr.color = Color.green;
-//		}
-//		if (blue) {
-//			sr.color = Color.blue;
-//		}
-//
-//		if (Input.GetKeyDown (KeyCode.A)) 
-//		{
-//			red = true;
-//			yellow = false;
-//			green = false;
-//			blue = false;
-//		}
-//		if (Input.GetKeyDown (KeyCode.S)) 
-//		{
-//			yellow = true;
-//			red = false;
-//			green = false;
-//			blue = false;
-//		}
-//		if (Input.GetKeyDown (KeyCode.D))
-//		{
-//			green = true;
-//			red = false;
-//			yellow = false;
-//			blue = false;
-//		}
-//		if (Input.GetKeyDown (KeyCode.F))
-//		{
-//			blue = true;
-//			red = false;
-//			yellow = false;
-//			green = false;
-//		}
+		sr.color = colors [colorNum];
+		if (Input.GetMouseButtonDown (0)) {
+			colorNum++;
+		}
+	}
+
+	void stayOnScreen()
+	{
+		if (mousePos.x >= maxX) {
+			transform.position = new Vector2 (maxX, mousePos.y);
+		} else if (mousePos.x <= maxX * -1) {
+			transform.position = new Vector2 (maxX * -1, mousePos.y);
+		} else if (mousePos.y >= maxY) {
+			transform.position = new Vector2 (mousePos.x, maxY);
+		} else if (mousePos.y <= maxY * -1) {
+			transform.position = new Vector2 (mousePos.x, maxY * -1);
+		} else {
+			transform.position = mousePos;
+		}
 	}
 }
