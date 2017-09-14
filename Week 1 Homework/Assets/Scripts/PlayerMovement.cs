@@ -62,12 +62,15 @@ public class PlayerMovement : MonoBehaviour {
 		if (coll.gameObject.tag == "DangerBall") 
 		{
 			DangerBall db = coll.gameObject.GetComponent<DangerBall> ();
-			if (db.colorNum == colorNum) 
-			{
+			if (db.colorNum == colorNum) {
 				Destroy (coll.gameObject);
 				GetComponent<AudioSource> ().PlayOneShot (score);
 				GameObject.Find ("ScoreManager").GetComponent<Scoring> ().increaseScore ();
 				BallList.balls.Remove (coll.gameObject);
+			} else 
+			{
+				Destroy (this);
+				GameObject.Find ("ScoreManager").GetComponent<Scoring> ().endGame.SetActive(true);
 			}
 		}
 	}
