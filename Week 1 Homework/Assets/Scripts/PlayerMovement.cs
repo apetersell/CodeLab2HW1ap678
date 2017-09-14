@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour {
 	SpriteRenderer sr;
 	public float maxX;
 	public float maxY;
+	public AudioClip score;
 	Vector2 mousePos = new Vector2();
 
 	// Use this for initialization
@@ -53,6 +54,21 @@ public class PlayerMovement : MonoBehaviour {
 			transform.position = new Vector2 (mousePos.x, maxY * -1);
 		} else {
 			transform.position = mousePos;
+		}
+	}
+
+	void OnTriggerEnter2D (Collider2D coll)
+	{
+		if (coll.gameObject.tag == "DangerBall") 
+		{
+			DangerBall db = coll.gameObject.GetComponent<DangerBall> ();
+			if (db.colorNum == colorNum) 
+			{
+				Destroy (coll.gameObject);
+				GetComponent<AudioSource> ().PlayOneShot (score);
+				GameObject.Find ("ScoreManager").GetComponent<Scoring> ().increaseScore ();
+				BallList.balls.Remove (coll.gameObject);
+			}
 		}
 	}
 }

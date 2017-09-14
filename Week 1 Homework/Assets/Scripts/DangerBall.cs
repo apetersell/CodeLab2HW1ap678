@@ -11,6 +11,7 @@ public class DangerBall : MonoBehaviour {
 	public float maxStartSpeed; 
 	public float minStartSpeed;
 	public int colorNum;
+	public AudioClip bump;
 	public Sprite [] colors; 
 	Rigidbody2D rb;
 	SpriteRenderer sr;
@@ -82,6 +83,7 @@ public class DangerBall : MonoBehaviour {
 			ySpeed = ySpeed * -1.1f;
 		}
 		colorNum = Random.Range (0, 4);
+		GetComponent<AudioSource> ().PlayOneShot (bump);
 	}
 
 
